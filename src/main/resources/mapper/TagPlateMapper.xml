@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guonl.mapper.TagPlateMapper">
+  <resultMap id="BaseResultMap" type="com.guonl.model.TagPlate">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="plate_id" jdbcType="INTEGER" property="plateId" />
+    <result column="plate_name" jdbcType="VARCHAR" property="plateName" />
+    <result column="plate_desc" jdbcType="VARCHAR" property="plateDesc" />
+    <result column="core_stocks_count" jdbcType="INTEGER" property="coreStocksCount" />
+    <result column="act_stocks_count" jdbcType="INTEGER" property="actStocksCount" />
+    <result column="hash_code" jdbcType="INTEGER" property="hashCode" />
+    <result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="is_del" jdbcType="BIT" property="isDel" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.guonl.model.TagPlateWithBLOBs">
+    <result column="question_answers" jdbcType="LONGVARCHAR" property="questionAnswers" />
+    <result column="introduceDesc" jdbcType="LONGVARCHAR" property="introducedesc" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, plate_id, plate_name, plate_desc, core_stocks_count, act_stocks_count, hash_code, 
+    created_by, created_at, updated_at, is_del
+  </sql>
+  <sql id="Blob_Column_List">
+    question_answers, introduceDesc
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.guonl.model.TagPlateExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tag_plate
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.guonl.model.TagPlateExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tag_plate
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tag_plate
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tag_plate
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.guonl.model.TagPlateExample">
+    delete from tag_plate
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.guonl.model.TagPlateWithBLOBs">
+    insert into tag_plate (id, plate_id, plate_name, 
+      plate_desc, core_stocks_count, act_stocks_count, 
+      hash_code, created_by, created_at, 
+      updated_at, is_del, question_answers, 
+      introduceDesc)
+    values (#{id,jdbcType=INTEGER}, #{plateId,jdbcType=INTEGER}, #{plateName,jdbcType=VARCHAR}, 
+      #{plateDesc,jdbcType=VARCHAR}, #{coreStocksCount,jdbcType=INTEGER}, #{actStocksCount,jdbcType=INTEGER}, 
+      #{hashCode,jdbcType=INTEGER}, #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{updatedAt,jdbcType=TIMESTAMP}, #{isDel,jdbcType=BIT}, #{questionAnswers,jdbcType=LONGVARCHAR}, 
+      #{introducedesc,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="map">
+    insert into tag_plate
+    <choose>
+      <when test="selective != null and selective.length > 0">
+        <foreach close=")" collection="selective" item="column" open="(" separator=",">
+          ${column.escapedColumnName}
+        </foreach>
+      </when>
+      <otherwise>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+          <if test="record.id != null">
+            id,
+          </if>
+          <if test="record.plateId != null">
+            plate_id,
+          </if>
+          <if test="record.plateName != null">
+            plate_name,
+          </if>
+          <if test="record.plateDesc != null">
+            plate_desc,
+          </if>
+          <if test="record.coreStocksCount != null">
+            core_stocks_count,
+          </if>
+          <if test="record.actStocksCount != null">
+            act_stocks_count,
+          </if>
+          <if test="record.hashCode != null">
+            hash_code,
+          </if>
+          <if test="record.createdBy != null">
+            created_by,
+          </if>
+          <if test="record.createdAt != null">
+            created_at,
+          </if>
+          <if test="record.updatedAt != null">
+            updated_at,
+          </if>
+          <if test="record.isDel != null">
+            is_del,
+          </if>
+          <if test="record.questionAnswers != null">
+            question_answers,
+          </if>
+          <if test="record.introducedesc != null">
+            introduceDesc,
+          </if>
+        </trim>
+        <trim prefix="(" suffix=")" suffixOverrides="," />
+      </otherwise>
+    </choose>
+    values
+    <choose>
+      <when test="selective != null and selective.length > 0">
+        <foreach close=")" collection="selective" item="column" open="(" separator=",">
+          #{record.${column.javaProperty},jdbcType=${column.jdbcType}}
+        </foreach>
+      </when>
+      <otherwise>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+          <if test="record.id != null">
+            #{record.id,jdbcType=INTEGER},
+          </if>
+          <if test="record.plateId != null">
+            #{record.plateId,jdbcType=INTEGER},
+          </if>
+          <if test="record.plateName != null">
+            #{record.plateName,jdbcType=VARCHAR},
+          </if>
+          <if test="record.plateDesc != null">
+            #{record.plateDesc,jdbcType=VARCHAR},
+          </if>
+          <if test="record.coreStocksCount != null">
+            #{record.coreStocksCount,jdbcType=INTEGER},
+          </if>
+          <if test="record.actStocksCount != null">
+            #{record.actStocksCount,jdbcType=INTEGER},
+          </if>
+          <if test="record.hashCode != null">
+            #{record.hashCode,jdbcType=INTEGER},
+          </if>
+          <if test="record.createdBy != null">
+            #{record.createdBy,jdbcType=VARCHAR},
+          </if>
+          <if test="record.createdAt != null">
+            #{record.createdAt,jdbcType=TIMESTAMP},
+          </if>
+          <if test="record.updatedAt != null">
+            #{record.updatedAt,jdbcType=TIMESTAMP},
+          </if>
+          <if test="record.isDel != null">
+            #{record.isDel,jdbcType=BIT},
+          </if>
+          <if test="record.questionAnswers != null">
+            #{record.questionAnswers,jdbcType=LONGVARCHAR},
+          </if>
+          <if test="record.introducedesc != null">
+            #{record.introducedesc,jdbcType=LONGVARCHAR},
+          </if>
+        </trim>
+      </otherwise>
+    </choose>
+  </insert>
+  <select id="countByExample" parameterType="com.guonl.model.TagPlateExample" resultType="java.lang.Long">
+    select count(*) from tag_plate
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tag_plate
+    SET
+    <choose>
+      <when test="selective != null and selective.length > 0">
+        <foreach collection="selective" item="column" separator=",">
+          ${column.escapedColumnName} = #{record.${column.javaProperty},jdbcType=${column.jdbcType}}
+        </foreach>
+      </when>
+      <otherwise>
+        <trim suffixOverrides=",">
+          <if test="record.id != null">
+            id = #{record.id,jdbcType=INTEGER},
+          </if>
+          <if test="record.plateId != null">
+            plate_id = #{record.plateId,jdbcType=INTEGER},
+          </if>
+          <if test="record.plateName != null">
+            plate_name = #{record.plateName,jdbcType=VARCHAR},
+          </if>
+          <if test="record.plateDesc != null">
+            plate_desc = #{record.plateDesc,jdbcType=VARCHAR},
+          </if>
+          <if test="record.coreStocksCount != null">
+            core_stocks_count = #{record.coreStocksCount,jdbcType=INTEGER},
+          </if>
+          <if test="record.actStocksCount != null">
+            act_stocks_count = #{record.actStocksCount,jdbcType=INTEGER},
+          </if>
+          <if test="record.hashCode != null">
+            hash_code = #{record.hashCode,jdbcType=INTEGER},
+          </if>
+          <if test="record.createdBy != null">
+            created_by = #{record.createdBy,jdbcType=VARCHAR},
+          </if>
+          <if test="record.createdAt != null">
+            created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+          </if>
+          <if test="record.updatedAt != null">
+            updated_at = #{record.updatedAt,jdbcType=TIMESTAMP},
+          </if>
+          <if test="record.isDel != null">
+            is_del = #{record.isDel,jdbcType=BIT},
+          </if>
+          <if test="record.questionAnswers != null">
+            question_answers = #{record.questionAnswers,jdbcType=LONGVARCHAR},
+          </if>
+          <if test="record.introducedesc != null">
+            introduceDesc = #{record.introducedesc,jdbcType=LONGVARCHAR},
+          </if>
+        </trim>
+      </otherwise>
+    </choose>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update tag_plate
+    set id = #{record.id,jdbcType=INTEGER},
+      plate_id = #{record.plateId,jdbcType=INTEGER},
+      plate_name = #{record.plateName,jdbcType=VARCHAR},
+      plate_desc = #{record.plateDesc,jdbcType=VARCHAR},
+      core_stocks_count = #{record.coreStocksCount,jdbcType=INTEGER},
+      act_stocks_count = #{record.actStocksCount,jdbcType=INTEGER},
+      hash_code = #{record.hashCode,jdbcType=INTEGER},
+      created_by = #{record.createdBy,jdbcType=VARCHAR},
+      created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{record.updatedAt,jdbcType=TIMESTAMP},
+      is_del = #{record.isDel,jdbcType=BIT},
+      question_answers = #{record.questionAnswers,jdbcType=LONGVARCHAR},
+      introduceDesc = #{record.introducedesc,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tag_plate
+    set id = #{record.id,jdbcType=INTEGER},
+      plate_id = #{record.plateId,jdbcType=INTEGER},
+      plate_name = #{record.plateName,jdbcType=VARCHAR},
+      plate_desc = #{record.plateDesc,jdbcType=VARCHAR},
+      core_stocks_count = #{record.coreStocksCount,jdbcType=INTEGER},
+      act_stocks_count = #{record.actStocksCount,jdbcType=INTEGER},
+      hash_code = #{record.hashCode,jdbcType=INTEGER},
+      created_by = #{record.createdBy,jdbcType=VARCHAR},
+      created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{record.updatedAt,jdbcType=TIMESTAMP},
+      is_del = #{record.isDel,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="map">
+    update tag_plate
+    SET
+    <choose>
+      <when test="selective != null and selective.length > 0">
+        <foreach collection="selective" item="column" separator=",">
+          ${column.escapedColumnName} = #{record.${column.javaProperty},jdbcType=${column.jdbcType}}
+        </foreach>
+      </when>
+      <otherwise>
+        <trim suffixOverrides=",">
+          <if test="record.plateId != null">
+            plate_id = #{record.plateId,jdbcType=INTEGER},
+          </if>
+          <if test="record.plateName != null">
+            plate_name = #{record.plateName,jdbcType=VARCHAR},
+          </if>
+          <if test="record.plateDesc != null">
+            plate_desc = #{record.plateDesc,jdbcType=VARCHAR},
+          </if>
+          <if test="record.coreStocksCount != null">
+            core_stocks_count = #{record.coreStocksCount,jdbcType=INTEGER},
+          </if>
+          <if test="record.actStocksCount != null">
+            act_stocks_count = #{record.actStocksCount,jdbcType=INTEGER},
+          </if>
+          <if test="record.hashCode != null">
+            hash_code = #{record.hashCode,jdbcType=INTEGER},
+          </if>
+          <if test="record.createdBy != null">
+            created_by = #{record.createdBy,jdbcType=VARCHAR},
+          </if>
+          <if test="record.createdAt != null">
+            created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+          </if>
+          <if test="record.updatedAt != null">
+            updated_at = #{record.updatedAt,jdbcType=TIMESTAMP},
+          </if>
+          <if test="record.isDel != null">
+            is_del = #{record.isDel,jdbcType=BIT},
+          </if>
+          <if test="record.questionAnswers != null">
+            question_answers = #{record.questionAnswers,jdbcType=LONGVARCHAR},
+          </if>
+          <if test="record.introducedesc != null">
+            introduceDesc = #{record.introducedesc,jdbcType=LONGVARCHAR},
+          </if>
+        </trim>
+      </otherwise>
+    </choose>
+    where id = #{record.id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.guonl.model.TagPlateWithBLOBs">
+    update tag_plate
+    set plate_id = #{plateId,jdbcType=INTEGER},
+      plate_name = #{plateName,jdbcType=VARCHAR},
+      plate_desc = #{plateDesc,jdbcType=VARCHAR},
+      core_stocks_count = #{coreStocksCount,jdbcType=INTEGER},
+      act_stocks_count = #{actStocksCount,jdbcType=INTEGER},
+      hash_code = #{hashCode,jdbcType=INTEGER},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      is_del = #{isDel,jdbcType=BIT},
+      question_answers = #{questionAnswers,jdbcType=LONGVARCHAR},
+      introduceDesc = #{introducedesc,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.guonl.model.TagPlate">
+    update tag_plate
+    set plate_id = #{plateId,jdbcType=INTEGER},
+      plate_name = #{plateName,jdbcType=VARCHAR},
+      plate_desc = #{plateDesc,jdbcType=VARCHAR},
+      core_stocks_count = #{coreStocksCount,jdbcType=INTEGER},
+      act_stocks_count = #{actStocksCount,jdbcType=INTEGER},
+      hash_code = #{hashCode,jdbcType=INTEGER},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      is_del = #{isDel,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectOneByExample" parameterType="com.guonl.model.TagPlateExample" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tag_plate
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    limit 1
+  </select>
+  <select id="selectOneByExampleWithBLOBs" parameterType="com.guonl.model.TagPlateExample" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tag_plate
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    limit 1
+  </select>
+  <insert id="batchInsert" parameterType="map">
+    insert into tag_plate
+    (id, plate_id, plate_name, plate_desc, core_stocks_count, act_stocks_count, hash_code, 
+      created_by, created_at, updated_at, is_del, question_answers, introduceDesc)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=INTEGER}, #{item.plateId,jdbcType=INTEGER}, #{item.plateName,jdbcType=VARCHAR}, 
+        #{item.plateDesc,jdbcType=VARCHAR}, #{item.coreStocksCount,jdbcType=INTEGER}, #{item.actStocksCount,jdbcType=INTEGER}, 
+        #{item.hashCode,jdbcType=INTEGER}, #{item.createdBy,jdbcType=VARCHAR}, #{item.createdAt,jdbcType=TIMESTAMP}, 
+        #{item.updatedAt,jdbcType=TIMESTAMP}, #{item.isDel,jdbcType=BIT}, #{item.questionAnswers,jdbcType=LONGVARCHAR}, 
+        #{item.introducedesc,jdbcType=LONGVARCHAR})
+    </foreach>
+  </insert>
+  <insert id="batchInsertSelective" parameterType="map">
+    insert into tag_plate (
+    <foreach collection="selective" item="column" separator=",">
+      ${column.escapedColumnName}
+    </foreach>
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      <foreach collection="selective" item="column" separator=",">
+        <if test="'id'.toString() == column.value">
+          #{item.id,jdbcType=INTEGER}
+        </if>
+        <if test="'plate_id'.toString() == column.value">
+          #{item.plateId,jdbcType=INTEGER}
+        </if>
+        <if test="'plate_name'.toString() == column.value">
+          #{item.plateName,jdbcType=VARCHAR}
+        </if>
+        <if test="'plate_desc'.toString() == column.value">
+          #{item.plateDesc,jdbcType=VARCHAR}
+        </if>
+        <if test="'core_stocks_count'.toString() == column.value">
+          #{item.coreStocksCount,jdbcType=INTEGER}
+        </if>
+        <if test="'act_stocks_count'.toString() == column.value">
+          #{item.actStocksCount,jdbcType=INTEGER}
+        </if>
+        <if test="'hash_code'.toString() == column.value">
+          #{item.hashCode,jdbcType=INTEGER}
+        </if>
+        <if test="'created_by'.toString() == column.value">
+          #{item.createdBy,jdbcType=VARCHAR}
+        </if>
+        <if test="'created_at'.toString() == column.value">
+          #{item.createdAt,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'updated_at'.toString() == column.value">
+          #{item.updatedAt,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'is_del'.toString() == column.value">
+          #{item.isDel,jdbcType=BIT}
+        </if>
+        <if test="'question_answers'.toString() == column.value">
+          #{item.questionAnswers,jdbcType=LONGVARCHAR}
+        </if>
+        <if test="'introduceDesc'.toString() == column.value">
+          #{item.introducedesc,jdbcType=LONGVARCHAR}
+        </if>
+      </foreach>
+      )
+    </foreach>
+  </insert>
+</mapper>

@@ -1,0 +1,27 @@
+
+spring:
+  #mongo
+  data:
+    mongodb:
+      host: 127.0.0.1
+      port: 27017
+#      database: stock
+      database: stock_20191216
+  #mysql
+  datasource:
+    username: root
+    password: abc-123456
+    url: jdbc:mysql://localhost:3306/tag_lib?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.guonl.model
+
+
+#打印sql执行日志
+logging:
+  level:
+    org.springframework.data.mongodb.core: DEBUG
+    com.example.mapper: DEBUG
